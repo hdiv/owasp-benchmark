@@ -49,7 +49,7 @@ public class HdivReader extends Reader {
 						lastLine = line;
 					}
 					else if (line.contains("Product version:")) {
-						String version = line.substring(line.indexOf("version:"));
+						String version = line.substring(line.indexOf("version:")+"version:".length());
 						tr.setToolVersion(version);
 					}
 				}
