@@ -1,5 +1,5 @@
 /**
-* OWASP Benchmark Project v1.3alpha
+* OWASP Benchmark Project v1.2
 *
 * This file is part of the Open Web Application Security Project (OWASP)
 * Benchmark Project. For details, please see
@@ -57,7 +57,7 @@ public class BenchmarkTest01133 extends HttpServlet {
 		}
 		// Note: We don't URL decode header names because people don't normally do that
 
-		String bar = new Test().doSomething(param);
+		String bar = new Test().doSomething(request, param);
 		
 		long l = new java.util.Random().nextLong();
 		String rememberMeKey = Long.toString(l);
@@ -110,7 +110,7 @@ public class BenchmarkTest01133 extends HttpServlet {
 	
     private class Test {
 
-        public String doSomething(String param) throws ServletException, IOException {
+        public String doSomething(HttpServletRequest request, String param) throws ServletException, IOException {
 
 		String bar = "";
 		if (param != null) bar = param.split(" ")[0];

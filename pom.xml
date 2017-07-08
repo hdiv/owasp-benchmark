@@ -1,9 +1,9 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+﻿<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.owasp</groupId>
 	<artifactId>benchmark</artifactId>
-    <version>1.2</version>
+	<version>1.2</version>
 	<packaging>war</packaging>
 	<name>OWASP Benchmark Project</name>
 	<url>https://www.owasp.org/index.php/Benchmark</url>
@@ -15,10 +15,10 @@
 					<plugin>
 						<groupId>org.codehaus.mojo</groupId>
 						<artifactId>exec-maven-plugin</artifactId>
-						<version>1.4.0</version>
+						<version>1.5.0</version>
 						<executions>
 							<execution>
-								<phase>validate</phase>
+								<phase>compile</phase>
 								<goals>
 									<goal>java</goal>
 								</goals>
@@ -31,7 +31,7 @@
 				</plugins>
 			</build>
 		</profile>
-
+		
 		<profile>
 			<id>benchmarkscore</id>
 			<build>
@@ -85,7 +85,7 @@
 								<plugin>
 									<groupId>com.h3xstream.findsecbugs</groupId>
 									<artifactId>findsecbugs-plugin</artifactId>
-									<version>1.4.6</version>
+									<version>1.6.0</version>
 								</plugin>
 							</plugins>
 						</configuration>
@@ -98,6 +98,7 @@
 			<id>deploy</id>
 			<properties>
 				<skipTests>true</skipTests>
+				<maven.war.webxml>${basedir}/src/config/web.xml</maven.war.webxml>
 			</properties>
 			<build>
 				<plugins>
@@ -152,13 +153,13 @@
 					<plugin>
 						<groupId>org.codehaus.cargo</groupId>
 						<artifactId>cargo-maven2-plugin</artifactId>
-						<version>1.4.9</version>
+						<version>1.6.0</version>
 						<configuration>
 							<container>
 								<timeout>300000</timeout>
 								<containerId>tomcat8x</containerId>
 								<zipUrlInstaller>
-									<url>http://archive.apache.org/dist/tomcat/tomcat-8/v8.0.21/bin/apache-tomcat-8.0.21.zip</url>
+									<url>http://archive.apache.org/dist/tomcat/tomcat-8/v8.0.38/bin/apache-tomcat-8.0.38.zip</url>
 								</zipUrlInstaller>
 							</container>
 							<properties>
@@ -166,14 +167,18 @@
 								-XX:MaxPermSize=6G -Xms1G –Xmx8G </cargo.jvmargs>
 							</properties>
 							<configuration>
-								<files>
-									<copy>
-										<file>${basedir}/src/config/local/server.xml</file>
-										<tofile>conf/server.xml</tofile>
-										<configfile>true</configfile>
+								<configfiles>
+									<configfile>
+										<file>${basedir}/src/config/${runenv}/server.xml</file>
+										<todir>conf</todir>
 										<overwrite>true</overwrite>
-									</copy>
-								</files>
+									</configfile>
+									<configfile>
+										<file>${basedir}/src/config/${runenv}/context.xml</file>
+										<todir>conf</todir>
+										<overwrite>true</overwrite>
+									</configfile>
+								</configfiles>
 								<properties>
 									<cargo.jvmargs>
 									    -Dhdiv.config.dir=/Users/anderruiz/git/benchmark/ -Dhdiv.agent.debug=true -Dhdiv.xss.advanced=true -Dhealth.reports.offline=true
@@ -272,9 +277,15 @@
 										<file>${basedir}/src/config/remote/server.xml</file>
 										<tofile>conf/server.xml</tofile>
 										<configfile>true</configfile>
+=======
+									</configfile>
+									<configfile>
+										<file>${basedir}/src/config/${runenv}/context.xml</file>
+										<todir>conf</todir>
+>>>>>>> branch 'master' of https://github.com/OWASP/Benchmark.git
 										<overwrite>true</overwrite>
-									</copy>
-								</files>
+									</configfile>
+								</configfiles>
 								<properties>
 									<cargo.servlet.port>8443</cargo.servlet.port>
 									<cargo.protocol>https</cargo.protocol>
@@ -350,27 +361,31 @@
 					<plugin>
 						<groupId>org.codehaus.cargo</groupId>
 						<artifactId>cargo-maven2-plugin</artifactId>
-						<version>1.4.9</version>
+						<version>1.6.0</version>
 						<configuration>
 							<container>
 								<timeout>300000</timeout>
 								<containerId>tomcat8x</containerId>
 								<zipUrlInstaller>
-									<url>http://archive.apache.org/dist/tomcat/tomcat-8/v8.0.21/bin/apache-tomcat-8.0.21.zip</url>
+									<url>http://archive.apache.org/dist/tomcat/tomcat-8/v8.0.38/bin/apache-tomcat-8.0.38.zip</url>
 								</zipUrlInstaller>
 							</container>
 							<properties>
 								<cargo.jvmargs>-XX:MaxPermSize=6G -Xms1G –Xmx8G</cargo.jvmargs>
 							</properties>
 							<configuration>
-								<files>
-									<copy>
+								<configfiles>
+									<configfile>
 										<file>${basedir}/src/config/local/server.xml</file>
-										<tofile>conf/server.xml</tofile>
-										<configfile>true</configfile>
+										<todir>conf</todir>
 										<overwrite>true</overwrite>
-									</copy>
-								</files>
+									</configfile>
+									<configfile>
+										<file>${basedir}/src/config/local/context.xml</file>
+										<todir>conf</todir>
+										<overwrite>true</overwrite>
+									</configfile>
+								</configfiles>
 								<properties>
 									<cargo.jvmargs>
 										-Xmx4G
@@ -380,6 +395,8 @@
 										-Dcontrast.level=debug
 										-Dcontrast.noteamserver.enable=true
 										-Dcontrast.teamserver.suppress=true
+										-Dcontrast.assess.threshold.entries=100000
+										-Dcontrast.featureJSON=${basedir}/tools/Contrast/assess.json
 									</cargo.jvmargs>
 									<cargo.servlet.port>8443</cargo.servlet.port>
 									<cargo.protocol>https</cargo.protocol>
@@ -490,7 +507,20 @@
 	</repositories>
 
 	<dependencies>
-
+		<dependency>
+			<groupId>javax</groupId>
+			<artifactId>javaee-api</artifactId>
+			<version>7.0</version>
+			<scope>provided</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.1.0</version>
+			<scope>provided</scope>
+		</dependency>
+		
 		<dependency>
 			<groupId>org.seleniumhq.selenium</groupId>
 			<artifactId>selenium-server-standalone</artifactId>
@@ -502,6 +532,7 @@
 			<artifactId>slf4j-api</artifactId>
 			<version>1.7.12</version>
 		</dependency>
+		
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
@@ -511,12 +542,6 @@
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
 			<version>1.2.17</version>
-		</dependency>
-		<dependency>
-			<groupId>javax</groupId>
-			<artifactId>javaee-api</artifactId>
-			<version>7.0</version>
-			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
@@ -552,10 +577,44 @@
 		</dependency>
 
 		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.4</version>
+		</dependency>
+
+		<!-- Kevin's fix for jar version conflicts -->
+		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-entitymanager</artifactId>
 			<version>3.3.2.GA</version>
+			<exclusions>
+				<exclusion>
+					<groupId>asm</groupId>
+					<artifactId>asm</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>asm</groupId>
+					<artifactId>asm-attrs</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>cglib</groupId>
+					<artifactId>cglib</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
+
+		<dependency>
+			<groupId>asm</groupId>
+			<artifactId>asm</artifactId>
+			<version>3.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>cglib</groupId>
+			<artifactId>cglib-nodep</artifactId>
+			<version>2.1_3</version>
+		</dependency>
+		<!-- END Kevin's fix for jar version conflicts -->
 
 		<dependency>
 			<groupId>org.hibernate</groupId>
@@ -574,25 +633,7 @@
 			<artifactId>jta</artifactId>
 			<version>1.1</version>
 		</dependency>
-
-		<dependency>
-			<groupId>net.sourceforge.jwebunit</groupId>
-			<artifactId>jwebunit-core</artifactId>
-			<version>3.2</version>
-		</dependency>
-
-		<dependency>
-			<groupId>net.sourceforge.jwebunit</groupId>
-			<artifactId>jwebunit-htmlunit-plugin</artifactId>
-			<version>3.2</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.slf4j</groupId>
-					<artifactId>jcl-over-slf4j</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-
+		
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
@@ -662,46 +703,53 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-core</artifactId>
-			<version>4.1.5.RELEASE</version>
+			<version>4.1.7.RELEASE</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-jdbc</artifactId>
-			<version>4.1.6.RELEASE</version>
+			<version>4.1.7.RELEASE</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-web</artifactId>
-			<version>4.1.5.RELEASE</version>
+			<version>4.1.7.RELEASE</version>
 		</dependency>
 		<!-- Begin of new dependencies -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
-			<version>4.1.5.RELEASE</version>
+			<version>4.1.7.RELEASE</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
-			<version>4.1.5.RELEASE</version>
+			<version>4.1.7.RELEASE</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-aop</artifactId>
-			<version>4.1.5.RELEASE</version>
+			<version>4.1.7.RELEASE</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-beans</artifactId>
-			<version>4.1.5.RELEASE</version>
+			<version>4.1.7.RELEASE</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-expression</artifactId>
-			<version>4.1.5.RELEASE</version>
+			<version>4.1.7.RELEASE</version>
 		</dependency>
+
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.7</version>
+		</dependency>
+
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-annotations</artifactId>
@@ -820,7 +868,6 @@
 			</exclusions>
 		</dependency>
 
-
 	</dependencies>
 
 	<build>
@@ -874,8 +921,6 @@
 				</configuration>
 			</plugin>
 		</plugins>
-
-
 	</build>
 
 	<reporting>
@@ -896,7 +941,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-pmd-plugin</artifactId>
-				<version>3.6</version>
+				<version>3.8</version>
 				<configuration>
 					<linkXref>true</linkXref>
 					<targetJdk>1.7</targetJdk>
@@ -911,6 +956,8 @@
 		<failOnMissingWebXml>false</failOnMissingWebXml>
 		<skipTests>false</skipTests>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<maven.war.webxml>${basedir}/src/config/web.xml</maven.war.webxml>
+		<runenv>local</runenv>
 	</properties>
-
 </project>

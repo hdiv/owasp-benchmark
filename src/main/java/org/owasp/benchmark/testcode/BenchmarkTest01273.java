@@ -1,5 +1,5 @@
 /**
-* OWASP Benchmark Project v1.3alpha
+* OWASP Benchmark Project v1.2
 *
 * This file is part of the Open Web Application Security Project (OWASP)
 * Benchmark Project. For details, please see
@@ -43,7 +43,7 @@ public class BenchmarkTest01273 extends HttpServlet {
 		String param = request.getParameter("BenchmarkTest01273");
 		if (param == null) param = "";
 
-		String bar = new Test().doSomething(param);
+		String bar = new Test().doSomething(request, param);
 		
 		double stuff = new java.util.Random().nextGaussian();
 		String rememberMeKey = Double.toString(stuff).substring(2); // Trim off the 0. at the front.
@@ -96,7 +96,7 @@ public class BenchmarkTest01273 extends HttpServlet {
 	
     private class Test {
 
-        public String doSomething(String param) throws ServletException, IOException {
+        public String doSomething(HttpServletRequest request, String param) throws ServletException, IOException {
 
 		String bar = param;
 		if (param != null && param.length() > 1) {

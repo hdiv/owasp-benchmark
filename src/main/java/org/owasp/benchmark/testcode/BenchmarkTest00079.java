@@ -1,5 +1,5 @@
 /**
-* OWASP Benchmark Project v1.3alpha
+* OWASP Benchmark Project v1.2
 *
 * This file is part of the Open Web Application Security Project (OWASP)
 * Benchmark Project. For details, please see
@@ -33,7 +33,13 @@ public class BenchmarkTest00079 extends HttpServlet {
 	
 	@Override
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doPost(request, response);
+		javax.servlet.http.Cookie userCookie = new javax.servlet.http.Cookie("BenchmarkTest00079", "whatever");
+		userCookie.setMaxAge(60*3); //Store cookie for 3 minutes
+		userCookie.setSecure(true);
+		userCookie.setPath(request.getRequestURI());
+		response.addCookie(userCookie);
+		javax.servlet.RequestDispatcher rd = request.getRequestDispatcher("/weakrand-00/BenchmarkTest00079.html");
+		rd.include(request, response);
 	}
 
 	@Override
@@ -55,9 +61,9 @@ public class BenchmarkTest00079 extends HttpServlet {
 		
 		String bar = "safe!";
 		java.util.HashMap<String,Object> map18384 = new java.util.HashMap<String,Object>();
-		map18384.put("keyA-18384", "a Value"); // put some stuff in the collection
+		map18384.put("keyA-18384", "a-Value"); // put some stuff in the collection
 		map18384.put("keyB-18384", param); // put it in a collection
-		map18384.put("keyC", "another Value"); // put some stuff in the collection
+		map18384.put("keyC", "another-Value"); // put some stuff in the collection
 		bar = (String)map18384.get("keyB-18384"); // get it back out
 		
 		

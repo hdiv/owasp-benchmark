@@ -1,5 +1,5 @@
 /**
-* OWASP Benchmark Project v1.3alpha
+* OWASP Benchmark Project v1.2
 *
 * This file is part of the Open Web Application Security Project (OWASP)
 * Benchmark Project. For details, please see
@@ -51,9 +51,9 @@ public class BenchmarkTest00173 extends HttpServlet {
 		
 		String bar = "safe!";
 		java.util.HashMap<String,Object> map68097 = new java.util.HashMap<String,Object>();
-		map68097.put("keyA-68097", "a Value"); // put some stuff in the collection
+		map68097.put("keyA-68097", "a-Value"); // put some stuff in the collection
 		map68097.put("keyB-68097", param); // put it in a collection
-		map68097.put("keyC", "another Value"); // put some stuff in the collection
+		map68097.put("keyC", "another-Value"); // put some stuff in the collection
 		bar = (String)map68097.get("keyB-68097"); // get it back out
 		
 		

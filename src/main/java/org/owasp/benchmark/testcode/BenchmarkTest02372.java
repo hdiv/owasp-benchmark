@@ -1,5 +1,5 @@
 /**
-* OWASP Benchmark Project v1.3alpha
+* OWASP Benchmark Project v1.2
 *
 * This file is part of the Open Web Application Security Project (OWASP)
 * Benchmark Project. For details, please see
@@ -44,19 +44,13 @@ public class BenchmarkTest02372 extends HttpServlet {
 		String param = scr.getTheParameter("BenchmarkTest02372");
 		if (param == null) param = "";
 
-		String bar = doSomething(param);
+		String bar = doSomething(request, param);
 		
 		// Code based on example from:
 		// http://examples.javacodegeeks.com/core-java/crypto/encrypt-decrypt-file-stream-with-des/
 
 		try {
-			javax.crypto.Cipher c = javax.crypto.Cipher.getInstance("RSA/ECB/PKCS1Padding", "SunJCE");
-            // Prepare the cipher to encrypt
-            java.security.KeyPairGenerator keyGen = java.security.KeyPairGenerator.getInstance("RSA");
-            keyGen.initialize(4096);
-            java.security.PublicKey publicKey= keyGen.genKeyPair().getPublic();
-            c.init(javax.crypto.Cipher.ENCRYPT_MODE, publicKey);
-			
+			javax.crypto.Cipher c = org.owasp.benchmark.helpers.Utils.getCipher();
 			// encrypt and store the results
 			byte[] input = { (byte)'?' };
 			Object inputParam = bar;
@@ -83,25 +77,6 @@ public class BenchmarkTest02372 extends HttpServlet {
 "Sensitive value: '" + org.owasp.esapi.ESAPI.encoder().encodeForHTML(new String(input)) + "' encrypted and stored<br/>"
 );
 
-			
-		} catch (java.security.NoSuchAlgorithmException e) {
-			response.getWriter().println(
-"Problem executing crypto - javax.crypto.Cipher.getInstance(java.lang.String,java.security.Provider) Test Case"
-);
-e.printStackTrace(response.getWriter());
-			throw new ServletException(e);
-		} catch (java.security.NoSuchProviderException e) {
-			response.getWriter().println(
-"Problem executing crypto - javax.crypto.Cipher.getInstance(java.lang.String,java.security.Provider) Test Case"
-);
-e.printStackTrace(response.getWriter());
-			throw new ServletException(e);
-		} catch (javax.crypto.NoSuchPaddingException e) {
-			response.getWriter().println(
-"Problem executing crypto - javax.crypto.Cipher.getInstance(java.lang.String,java.security.Provider) Test Case"
-);
-e.printStackTrace(response.getWriter());
-			throw new ServletException(e);
 		} catch (javax.crypto.IllegalBlockSizeException e) {
 			response.getWriter().println(
 "Problem executing crypto - javax.crypto.Cipher.getInstance(java.lang.String,java.security.Provider) Test Case"
@@ -114,12 +89,6 @@ e.printStackTrace(response.getWriter());
 );
 e.printStackTrace(response.getWriter());
 			throw new ServletException(e);
-		} catch (java.security.InvalidKeyException e) {
-			response.getWriter().println(
-"Problem executing crypto - javax.crypto.Cipher.getInstance(java.lang.String,java.security.Provider) Test Case"
-);
-e.printStackTrace(response.getWriter());
-			throw new ServletException(e);
 		}
 		response.getWriter().println(
 "Crypto Test javax.crypto.Cipher.getInstance(java.lang.String,java.lang.String) executed"
@@ -127,7 +96,7 @@ e.printStackTrace(response.getWriter());
 	}  // end doPost
 	
 		
-	private static String doSomething(String param) throws ServletException, IOException {
+	private static String doSomething(HttpServletRequest request, String param) throws ServletException, IOException {
 
 		org.owasp.benchmark.helpers.ThingInterface thing = org.owasp.benchmark.helpers.ThingFactory.createThing();
 		String bar = thing.doSomething(param);

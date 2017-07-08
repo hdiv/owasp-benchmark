@@ -1,5 +1,5 @@
 /**
-* OWASP Benchmark Project v1.3alpha
+* OWASP Benchmark Project v1.2
 *
 * This file is part of the Open Web Application Security Project (OWASP)
 * Benchmark Project. For details, please see
@@ -43,7 +43,7 @@ public class BenchmarkTest01815 extends HttpServlet {
 		org.owasp.benchmark.helpers.SeparateClassRequest scr = new org.owasp.benchmark.helpers.SeparateClassRequest( request );
 		String param = scr.getTheValue("BenchmarkTest01815");
 
-		String bar = new Test().doSomething(param);
+		String bar = new Test().doSomething(request, param);
 		
 		String sql = "SELECT * from USERS where USERNAME='foo' and PASSWORD='"+ bar +"'";
 				
@@ -66,13 +66,13 @@ public class BenchmarkTest01815 extends HttpServlet {
 	
     private class Test {
 
-        public String doSomething(String param) throws ServletException, IOException {
+        public String doSomething(HttpServletRequest request, String param) throws ServletException, IOException {
 
 		String bar = "safe!";
 		java.util.HashMap<String,Object> map72704 = new java.util.HashMap<String,Object>();
-		map72704.put("keyA-72704", "a Value"); // put some stuff in the collection
+		map72704.put("keyA-72704", "a-Value"); // put some stuff in the collection
 		map72704.put("keyB-72704", param); // put it in a collection
-		map72704.put("keyC", "another Value"); // put some stuff in the collection
+		map72704.put("keyC", "another-Value"); // put some stuff in the collection
 		bar = (String)map72704.get("keyB-72704"); // get it back out
 
             return bar;

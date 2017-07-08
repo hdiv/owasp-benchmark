@@ -1,5 +1,5 @@
 /**
-* OWASP Benchmark Project v1.3alpha
+* OWASP Benchmark Project v1.2
 *
 * This file is part of the Open Web Application Security Project (OWASP)
 * Benchmark Project. For details, please see
@@ -57,7 +57,7 @@ public class BenchmarkTest01707 extends HttpServlet {
 		}
 		param = java.net.URLDecoder.decode(param, "UTF-8");
 
-		String bar = new Test().doSomething(param);
+		String bar = new Test().doSomething(request, param);
 		
 		try {
 			int r = java.security.SecureRandom.getInstance("SHA1PRNG").nextInt();
@@ -113,13 +113,13 @@ user + " has been remembered with cookie: " + rememberMe.getName()
 	
     private class Test {
 
-        public String doSomething(String param) throws ServletException, IOException {
+        public String doSomething(HttpServletRequest request, String param) throws ServletException, IOException {
 
 		String bar = "safe!";
 		java.util.HashMap<String,Object> map13101 = new java.util.HashMap<String,Object>();
-		map13101.put("keyA-13101", "a Value"); // put some stuff in the collection
+		map13101.put("keyA-13101", "a-Value"); // put some stuff in the collection
 		map13101.put("keyB-13101", param); // put it in a collection
-		map13101.put("keyC", "another Value"); // put some stuff in the collection
+		map13101.put("keyC", "another-Value"); // put some stuff in the collection
 		bar = (String)map13101.get("keyB-13101"); // get it back out
 
             return bar;

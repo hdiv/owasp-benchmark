@@ -1,5 +1,5 @@
 /**
-* OWASP Benchmark Project v1.3alpha
+* OWASP Benchmark Project v1.2
 *
 * This file is part of the Open Web Application Security Project (OWASP)
 * Benchmark Project. For details, please see
@@ -50,7 +50,7 @@ public class BenchmarkTest01167 extends HttpServlet {
 		// URL Decode the header value since req.getHeaders() doesn't. Unlike req.getParameters().
 		param = java.net.URLDecoder.decode(param, "UTF-8");
 
-		String bar = new Test().doSomething(param);
+		String bar = new Test().doSomething(request, param);
 		
 		try {
 			java.security.MessageDigest md = java.security.MessageDigest.getInstance("MD5");
@@ -93,13 +93,13 @@ public class BenchmarkTest01167 extends HttpServlet {
 	
     private class Test {
 
-        public String doSomething(String param) throws ServletException, IOException {
+        public String doSomething(HttpServletRequest request, String param) throws ServletException, IOException {
 
 		String bar = "safe!";
 		java.util.HashMap<String,Object> map70586 = new java.util.HashMap<String,Object>();
-		map70586.put("keyA-70586", "a Value"); // put some stuff in the collection
+		map70586.put("keyA-70586", "a-Value"); // put some stuff in the collection
 		map70586.put("keyB-70586", param); // put it in a collection
-		map70586.put("keyC", "another Value"); // put some stuff in the collection
+		map70586.put("keyC", "another-Value"); // put some stuff in the collection
 		bar = (String)map70586.get("keyB-70586"); // get it back out
 
             return bar;

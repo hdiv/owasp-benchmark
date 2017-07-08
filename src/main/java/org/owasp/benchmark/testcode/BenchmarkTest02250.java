@@ -1,5 +1,5 @@
 /**
-* OWASP Benchmark Project v1.3alpha
+* OWASP Benchmark Project v1.2
 *
 * This file is part of the Open Web Application Security Project (OWASP)
 * Benchmark Project. For details, please see
@@ -48,7 +48,7 @@ public class BenchmarkTest02250 extends HttpServlet {
 		}
 		
 
-		String bar = doSomething(param);
+		String bar = doSomething(request, param);
 		
 		String cmd = "";
         String osName = System.getProperty("os.name");
@@ -71,13 +71,13 @@ public class BenchmarkTest02250 extends HttpServlet {
 	}  // end doPost
 	
 		
-	private static String doSomething(String param) throws ServletException, IOException {
+	private static String doSomething(HttpServletRequest request, String param) throws ServletException, IOException {
 
 		String bar = "safe!";
 		java.util.HashMap<String,Object> map94176 = new java.util.HashMap<String,Object>();
-		map94176.put("keyA-94176", "a Value"); // put some stuff in the collection
+		map94176.put("keyA-94176", "a-Value"); // put some stuff in the collection
 		map94176.put("keyB-94176", param); // put it in a collection
-		map94176.put("keyC", "another Value"); // put some stuff in the collection
+		map94176.put("keyC", "another-Value"); // put some stuff in the collection
 		bar = (String)map94176.get("keyB-94176"); // get it back out
 	
 		return bar;	
