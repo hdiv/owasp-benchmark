@@ -163,8 +163,7 @@
 								</zipUrlInstaller>
 							</container>
 							<properties>
-								<cargo.jvmargs>
-								-XX:MaxPermSize=6G -Xms1G –Xmx8G </cargo.jvmargs>
+								<cargo.jvmargs>-XX:MaxPermSize=6G -Xms1G –Xmx8G</cargo.jvmargs>
 							</properties>
 							<configuration>
 								<configfiles>
@@ -185,108 +184,6 @@
 										-javaagent:/Users/anderruiz/hdiv-enterprise/hdiv-ee-agent/target/hdiv-ee-agent.jar -Dhdiv.file.level=FINE -Dhdiv.workingMode=FULL_DETECTION
 										-Xdebug -agentlib:jdwp=transport=dt_socket,address=8000,server=y,suspend=n
 									</cargo.jvmargs>
-									<cargo.servlet.port>8443</cargo.servlet.port>
-									<cargo.protocol>https</cargo.protocol>
-									<cargo.tomcat.connector.clientAuth>false</cargo.tomcat.connector.clientAuth>
-									<cargo.tomcat.connector.sslProtocol>TLS</cargo.tomcat.connector.sslProtocol>
-									<cargo.tomcat.connector.keystoreFile>../../../../.keystore</cargo.tomcat.connector.keystoreFile>
-									<cargo.tomcat.connector.keystorePass>changeit</cargo.tomcat.connector.keystorePass>
-									<cargo.tomcat.connector.keyAlias>tomcat</cargo.tomcat.connector.keyAlias>
-									<cargo.tomcat.httpSecure>true</cargo.tomcat.httpSecure>
-								</properties>
-							</configuration>
-						</configuration>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-
-		<profile>
-			<id>deploywremote</id>
-			<properties>
-				<skipTests>true</skipTests>
-			</properties>
-			<build>
-				<plugins>
-					<plugin>
-						<artifactId>maven-antrun-plugin</artifactId>
-						<version>1.7</version>
-						<executions>
-							<execution>
-								<id>ldap-server</id>
-								<phase>package</phase>
-								<goals>
-									<goal>run</goal>
-								</goals>
-								<configuration>
-									<target>
-										<ant target="run" antfile="${basedir}/src/config/build.xml">
-											<reference torefid="maven.compile.classpath" refid="maven.compile.classpath" />
-										</ant>
-									</target>
-								</configuration>
-							</execution>
-							<execution>
-								<id>database-server</id>
-								<phase>package</phase>
-								<goals>
-									<goal>run</goal>
-								</goals>
-								<configuration>
-									<target>
-										<ant target="databaseServer" antfile="${basedir}/src/config/build.xml">
-											<reference torefid="maven.compile.classpath" refid="maven.compile.classpath" />
-										</ant>
-									</target>
-								</configuration>
-							</execution>
-							<execution>
-								<id>database-init</id>
-								<phase>package</phase>
-								<goals>
-									<goal>run</goal>
-								</goals>
-								<configuration>
-									<target>
-										<ant target="databaseInit" antfile="${basedir}/src/config/build.xml">
-											<reference torefid="maven.compile.classpath" refid="maven.compile.classpath" />
-										</ant>
-									</target>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-					<plugin>
-						<groupId>org.codehaus.cargo</groupId>
-						<artifactId>cargo-maven2-plugin</artifactId>
-						<version>1.4.9</version>
-						<configuration>
-							<container>
-								<timeout>300000</timeout>
-								<containerId>tomcat8x</containerId>
-								<zipUrlInstaller>
-									<url>http://archive.apache.org/dist/tomcat/tomcat-8/v8.0.21/bin/apache-tomcat-8.0.21.zip</url>
-								</zipUrlInstaller>
-							</container>
-							<properties>
-								<cargo.jvmargs>-XX:MaxPermSize=6G -Xms1G –Xmx8G</cargo.jvmargs>
-							</properties>
-							<configuration>
-								<files>
-									<copy>
-										<file>${basedir}/src/config/remote/server.xml</file>
-										<tofile>conf/server.xml</tofile>
-										<configfile>true</configfile>
-=======
-									</configfile>
-									<configfile>
-										<file>${basedir}/src/config/${runenv}/context.xml</file>
-										<todir>conf</todir>
->>>>>>> branch 'master' of https://github.com/OWASP/Benchmark.git
-										<overwrite>true</overwrite>
-									</configfile>
-								</configfiles>
-								<properties>
 									<cargo.servlet.port>8443</cargo.servlet.port>
 									<cargo.protocol>https</cargo.protocol>
 									<cargo.tomcat.connector.clientAuth>false</cargo.tomcat.connector.clientAuth>
